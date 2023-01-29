@@ -1,3 +1,5 @@
+import { cloneDeep } from "lodash";
+
 //empty
 //ship
 //w-ship
@@ -25,13 +27,28 @@ export default class GameField {
     }
 
     addShip(ship, coord) {
+        const newField = cloneDeep(this.field);
         const [x, y] = coord;
         for (let row = 0; row < ship.length; row++) {
             for (let col = 0; col < ship[row].length; col++) {
-                this.field[row + y][col + x].state = "ship";
+                if (!this.isValidCoordToDeploy(col + x, row + y)) return false;
+                newField[row + y][col + x].state = "ship";
             }
         }
-        return this.field;
+        this.field = newField;
+        return true;
+    }
+
+    isValidCoordToDeploy(x, y) {
+        if (y >= this.rows || x >= this.cols) return false;
+        if (this.field[y][x].state === "ship") return false;
+        if (y - 1 >= 0 && this.field[y - 1][x].state === "ship") return false;
+        if (y + 1 < this.rows && this.field[y + 1][x].state === "ship")
+            return false;
+        if (x - 1 >= 0 && this.field[y][x - 1].state === "ship") return false;
+        if (x + 1 < this.cols && this.field[y][x + 1].state === "ship")
+            return false;
+        return true;
     }
 
     changeStates(points, state) {

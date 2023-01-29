@@ -21,12 +21,16 @@ const Game = () => {
         if (!selectedShip) return;
         setField((prev) => {
             const newGameField = cloneDeep(prev);
-            newGameField.addShip(selectedShip.gameField.field, coords);
+            const isAdded = newGameField.addShip(
+                selectedShip.gameField.field,
+                coords
+            );
+            if (isAdded)
+                setShipsToDeploy((prev) =>
+                    prev.filter((x) => x.id !== selectedShip.id)
+                );
             return newGameField;
         });
-        setShipsToDeploy((prev) =>
-            prev.filter((x) => x.id !== selectedShip.id)
-        );
     };
 
     return (

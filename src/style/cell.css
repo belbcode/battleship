@@ -1,0 +1,5 @@
+.cell {
+  border: solid 1px gray;
+  border-radius: 3px;
+  margin: 3px;
+}

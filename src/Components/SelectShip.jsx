@@ -31,6 +31,7 @@ const SelectShip = ({ setSelectedShip }) => {
                                         return x;
                                     });
                                 });
+                                setSelectedShip(ship.gameField.field);
                             }}
                             onClick={() =>
                                 setSelectedShip(ship.gameField.field)

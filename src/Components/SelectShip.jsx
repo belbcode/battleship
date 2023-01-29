@@ -14,14 +14,29 @@ const SelectShip = ({ setSelectedShip }) => {
     return (
         <>
             <div className="select-cont">
-                {selectBox.map((ship, index) => {
+                {selectBox.map((ship) => {
                     return (
                         <div
+                            onContextMenu={(e) => {
+                                e.preventDefault();
+                                setSelectBox((prev) => {
+                                    return prev.map((x) => {
+                                        if (x.id === ship.id) {
+                                            return {
+                                                ...x,
+                                                gameField:
+                                                    x.gameField.rotateShip(),
+                                            };
+                                        }
+                                        return x;
+                                    });
+                                });
+                            }}
                             onClick={() =>
                                 setSelectedShip(ship.gameField.field)
                             }
                             className="select-item"
-                            key={index}
+                            key={ship.id}
                         >
                             <div>
                                 <Field field={ship.gameField.field} />

@@ -37,4 +37,23 @@ export default class GameField {
     changeStates(points, state) {
         for (const point of points) this.changeState(point, state);
     }
+
+    rotateShip() {
+        console.log("field", this.field);
+        const res = [];
+        if (this.field.length === 1) {
+            for (const cell of this.field[0]) {
+                res.push([cell]);
+            }
+            this.field = res;
+        } else {
+            for (const cell of this.field) {
+                res.push(cell[0]);
+            }
+            this.field = [res];
+        }
+
+        console.log(this.field);
+        return this;
+    }
 }

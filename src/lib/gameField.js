@@ -14,7 +14,7 @@ export default class GameField {
     this.rows = rows;
     for (let i = 0; i < rows; i++) {
       const row = [];
-      for (let i = 0; i < cols; i++) row.push(initState);
+      for (let j = 0; j < cols; j++) row.push({state: initState, coord: [j, i]});
       this.field.push(row);
     }
   }

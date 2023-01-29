@@ -1,9 +1,11 @@
 import "../style/cell.css";
-const cellSize = 30;
+const cellSize = 30; //!!! Important !!!/
 
 const Cell = ({ state }) => {
   return (
-    <div
+    <div onClick={()=> {
+
+    }}
       className={`cell`}
       style={{ width: `${cellSize}px`, height: `${cellSize}px` }}
     >

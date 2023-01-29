@@ -48,6 +48,31 @@ export default class GameField {
         if (x - 1 >= 0 && this.field[y][x - 1].state === "ship") return false;
         if (x + 1 < this.cols && this.field[y][x + 1].state === "ship")
             return false;
+        if (
+            x - 1 >= 0 &&
+            y - 1 >= 0 &&
+            this.field[y - 1][x - 1].state === "ship"
+        )
+            return false;
+        if (
+            x - 1 >= 0 &&
+            y + 1 < this.rows &&
+            this.field[y + 1][x - 1].state === "ship"
+        )
+            return false;
+        if (
+            x + 1 < this.cols &&
+            y + 1 < this.rows &&
+            this.field[y + 1][x + 1].state === "ship"
+        )
+            return false;
+        if (
+            x + 1 < this.cols &&
+            y - 1 >= 0 &&
+            this.field[y - 1][x + 1].state === "ship"
+        )
+            return false;
+
         return true;
     }
 

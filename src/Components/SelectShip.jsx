@@ -11,6 +11,12 @@ const SelectShip = ({ setSelectedShip }) => {
         { id: "shipP4", gameField: new GameField(1, 2, "ship") },
     ]);
 
+    const [selectedId, setSelectedId] = useState();
+    const handleClick = (ship) => {
+        setSelectedShip(ship.gameField.field);
+        setSelectedId(ship.id);
+    };
+
     return (
         <>
             <div className="select-cont">
@@ -31,12 +37,14 @@ const SelectShip = ({ setSelectedShip }) => {
                                         return x;
                                     });
                                 });
-                                setSelectedShip(ship.gameField.field);
+                                handleClick(ship);
                             }}
-                            onClick={() =>
-                                setSelectedShip(ship.gameField.field)
-                            }
-                            className="select-item"
+                            onClick={() => handleClick(ship)}
+                            className={` select-item  ${
+                                selectedId === ship.id
+                                    ? "select-cont-selected"
+                                    : ""
+                            }`}
                             key={ship.id}
                         >
                             <div>

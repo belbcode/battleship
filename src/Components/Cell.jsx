@@ -1,7 +1,8 @@
 import "../style/cell.css";
 const cellSize = 30; //!!! Important !!!/
 
-const Cell = ({ state }) => {
+const Cell = ({ cellState }) => {
+  const {coords, state} = cellState
   return (
     <div onClick={()=> {
 

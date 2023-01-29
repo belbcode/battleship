@@ -19,6 +19,11 @@ export default class GameField {
     }
   }
   changeState(point, state) {
-    this.field[point[1]][point[0]] = state;
+    this.field[point[1]][point[0]] = {state: state,coord: point};
+
   }
+  changeStates(points, states) {
+
+  }
+
 }

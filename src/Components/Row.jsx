@@ -4,7 +4,7 @@ const Row = ({ row }) => {
   return (
     <div className="row">
       {row.map((v, i) => (
-        <Cell state={v} key={i} />
+        <Cell cellState={v} key={i} />
       ))}
     </div>
   );

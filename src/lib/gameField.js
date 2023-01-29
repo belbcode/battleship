@@ -98,4 +98,29 @@ export default class GameField {
         console.log(this.field);
         return this;
     }
+
+    deployShips(ships) {
+        const prevField = cloneDeep(this.field);
+        let attempt = 0;
+        for (const ship of ships) {
+            let coords = this.getRandomCoords();
+            while (!this.addShip(ship, coords)) {
+                coords = this.getRandomCoords();
+                attempt++;
+                if (attempt > 1000) {
+                    this.field = prevField;
+                    this.deployShips(ships);
+                    return;
+                }
+            }
+        }
+    }
+
+    getRandomCoords() {
+        const coords = [
+            +(Math.random() * (this.cols - 1)).toFixed(0),
+            +(Math.random() * (this.rows - 1)).toFixed(0),
+        ];
+        return coords;
+    }
 }

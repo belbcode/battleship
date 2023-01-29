@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { cloneDeep } from "lodash";
+import { cloneDeep, map } from "lodash";
 import GameField from "../lib/gameField";
 import Field from "./Field";
 import "../style/game.css";
@@ -10,6 +10,9 @@ export const GameContext = createContext({ handleCellClick: () => {} });
 
 const Game = () => {
     const initField = new GameField(10, 10, "empty");
+    const initAiField = new GameField(10, 10, "empty");
+    initAiField.deployShips(initShips.map((x) => x.gameField.field));
+    const [aiField, setAiField] = useState(initAiField);
 
     const [field, setField] = useState(initField);
 
@@ -43,6 +46,7 @@ const Game = () => {
                 shipsToDeploy={shipsToDeploy}
                 setShipsToDeploy={setShipsToDeploy}
             />
+            <Field field={aiField.field} />
         </>
     );
 };

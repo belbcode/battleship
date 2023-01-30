@@ -23,6 +23,7 @@ export default class GameField {
     }
 
     getState(point) {
+        console.log("getState", this, point);
         return this.field[point[1]][point[0]].state;
     }
     getShipId(point) {
@@ -136,8 +137,8 @@ export default class GameField {
 
     getRandomCoords() {
         const coords = [
-            +(Math.random() * (this.cols - 1)).toFixed(0),
-            +(Math.random() * (this.rows - 1)).toFixed(0),
+            Math.floor(Math.random() * this.cols),
+            Math.floor(Math.random() * this.rows),
         ];
         return coords;
     }

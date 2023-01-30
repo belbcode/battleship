@@ -22,6 +22,13 @@
     background-color: lightgray;
 }
 
+.cell-s-empty {
+    background-color: green;
+}
+.cell-w-ship {
+    background-color: red;
+}
+
 /* .cell-select {
   border: solid 2px purple;
 } */

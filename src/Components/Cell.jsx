@@ -1,11 +1,8 @@
-import { useContext, useState } from "react";
 import "../style/cell.css";
-import { GameContext } from "./Game";
 
 const cellSize = 30; //!!! Important !!!/
 
-const Cell = ({ cellState }) => {
-    const { handleCellClick } = useContext(GameContext);
+const Cell = ({ cellState, handleCellClick }) => {
     const { coord, state } = cellState;
     return (
         <div

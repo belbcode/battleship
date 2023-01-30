@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { cloneDeep, map } from "lodash";
 import GameField from "../lib/gameField";
 import Field from "./Field";
@@ -7,13 +7,9 @@ import SelectShip from "./SelectShip";
 import initShips from "../lib/initShips";
 import initAiField from "../lib/getAiGameField";
 
-export const GameContext = createContext({ handleCellClick: () => {} });
-
 const Game = () => {
-    const initField = new GameField(10, 10, "empty");
-
     const [aiField, setAiField] = useState(initAiField);
-    const [field, setField] = useState(initField);
+    const [field, setField] = useState(new GameField(10, 10, "empty"));
     const [enemyField, setEnemyField] = useState(
         new GameField(10, 10, "unknown")
     );
@@ -22,7 +18,7 @@ const Game = () => {
 
     const [shipsToDeploy, setShipsToDeploy] = useState(initShips);
 
-    const handleCellClick = (coords) => {
+    const deploySelectedShip = (coords) => {
         if (!selectedShip) return;
         setField((prev) => {
             const newGameField = cloneDeep(prev);
@@ -38,14 +34,29 @@ const Game = () => {
         });
     };
 
+    const shoot = (coords) => {
+        setAiField(aiField.shoot(coords));
+        setEnemyField(enemyField.changeState(coords, aiField.getState(coords)));
+    };
+
     return (
         <>
             <div className="flex">
-                <GameContext.Provider value={{ handleCellClick }}>
-                    <Field field={field.field} />
-                    <Field field={enemyField.field} />
-                    <Field field={aiField.field} />
-                </GameContext.Provider>
+                <div>
+                    <h3>My field</h3>
+                    <Field
+                        field={field.field}
+                        handleCellClick={deploySelectedShip}
+                    />
+                </div>
+                <div>
+                    <h3>How I see enemy field</h3>
+                    <Field field={enemyField.field} handleCellClick={shoot} />
+                </div>
+                <div>
+                    <h3>How I see enemy field</h3>
+                    <Field field={aiField.field} handleCellClick={() => {}} />
+                </div>
             </div>
             <SelectShip
                 setSelectedShip={setSelectedShip}

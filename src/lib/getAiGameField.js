@@ -3,6 +3,7 @@ import initShips from "./initShips";
 import { cloneDeep } from "lodash";
 
 const initAiField = new GameField(10, 10, "empty");
+
 const ships = cloneDeep(initShips);
 initAiField.deployShips(
     ships.map((ship) => {

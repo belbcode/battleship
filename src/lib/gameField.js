@@ -22,8 +22,26 @@ export default class GameField {
         }
     }
 
+    getState(point) {
+        return this.field[point[1]][point[0]].state;
+    }
+    shoot(point) {
+        const state = this.getState(point);
+        switch (state) {
+            case "empty":
+                return this.changeState(point, "s-empty");
+
+            case "ship":
+                return this.changeState(point, "w-ship");
+
+            default:
+                return this;
+        }
+    }
+
     changeState(point, state) {
         this.field[point[1]][point[0]] = { state: state, coord: point };
+        return cloneDeep(this);
     }
 
     addShip(ship, coord) {
@@ -81,7 +99,6 @@ export default class GameField {
     }
 
     rotateShip() {
-        console.log("field", this.field);
         const res = [];
         if (this.field.length === 1) {
             for (const cell of this.field[0]) {
@@ -95,7 +112,6 @@ export default class GameField {
             this.field = [res];
         }
 
-        console.log(this.field);
         return this;
     }
 

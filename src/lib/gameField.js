@@ -87,4 +87,11 @@ export default class GameField {
 
         return this;
     }
+    getRandomCoords() {
+        const coords = [
+            +(Math.random() * (this.cols - 1)).toFixed(0),
+            +(Math.random() * (this.rows - 1)).toFixed(0),
+        ];
+        return coords;
+    }
 }

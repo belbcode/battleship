@@ -30,14 +30,6 @@ export default class AiGameField extends GameField {
         }
     }
 
-    getRandomCoords() {
-        const coords = [
-            +(Math.random() * (this.cols - 1)).toFixed(0),
-            +(Math.random() * (this.rows - 1)).toFixed(0),
-        ];
-        return coords;
-    }
-
     aiShot(field) {
         let point = field.getRandomCoords();
         while (

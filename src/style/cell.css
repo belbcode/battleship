@@ -28,6 +28,9 @@
 .cell-w-ship {
     background-color: red;
 }
+.cell-d-ship {
+    background-color: black;
+}
 
 /* .cell-select {
   border: solid 2px purple;

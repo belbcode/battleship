@@ -5,10 +5,10 @@ import Field from "./Field";
 import "../style/game.css";
 import SelectShip from "./SelectShip";
 import initShips from "../lib/initShips";
-import initAiField from "../lib/getAiGameField";
+import AiGameField from "../lib/aiGameField";
 
 const Game = () => {
-    const [aiField, setAiField] = useState(initAiField);
+    const [aiField, setAiField] = useState(new AiGameField(10, 10, initShips));
     const [field, setField] = useState(new GameField(10, 10, "empty"));
     const [enemyField, setEnemyField] = useState(
         new GameField(10, 10, "unknown")

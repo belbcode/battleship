@@ -27,17 +27,44 @@ export default class GameField {
     }
 
     shoot(point) {
+        const [x, y] = point;
         const state = this.getState(point);
         switch (state) {
             case "empty":
                 return this.changeState(point, "s-empty");
 
             case "ship":
+                const coords = [];
+                this.getShipCoords(point, this.field[y][x].shipId, coords);
+                console.log(coords);
                 return this.changeState(point, "w-ship");
 
             default:
                 return this;
         }
+    }
+
+    getShipCoords(point, shipId, coords) {
+        const [x, y] = point;
+        if (
+            x < 0 ||
+            y < 0 ||
+            x >= this.cols ||
+            y > this.rows ||
+            this.field[y][x].shipId !== shipId
+        )
+            return coords;
+
+        for (let coord of coords) {
+            if (coord[0] === x && coord[1] === y) return coords;
+        }
+
+        coords.push(point);
+
+        this.getShipCoords([x - 1, y], shipId, coords);
+        this.getShipCoords([x + 1, y], shipId, coords);
+        this.getShipCoords([x, y - 1], shipId, coords);
+        this.getShipCoords([x, y + 1], shipId, coords);
     }
 
     changeState(point, state) {
@@ -87,6 +114,7 @@ export default class GameField {
 
         return this;
     }
+
     getRandomCoords() {
         const coords = [
             +(Math.random() * (this.cols - 1)).toFixed(0),

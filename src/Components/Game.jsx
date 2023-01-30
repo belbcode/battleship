@@ -13,8 +13,10 @@ const Game = () => {
     const initField = new GameField(10, 10, "empty");
 
     const [aiField, setAiField] = useState(initAiField);
-
     const [field, setField] = useState(initField);
+    const [enemyField, setEnemyField] = useState(
+        new GameField(10, 10, "unknown")
+    );
 
     const [selectedShip, setSelectedShip] = useState();
 
@@ -38,15 +40,18 @@ const Game = () => {
 
     return (
         <>
-            <GameContext.Provider value={{ handleCellClick }}>
-                <Field field={field.field} />
-            </GameContext.Provider>
+            <div className="flex">
+                <GameContext.Provider value={{ handleCellClick }}>
+                    <Field field={field.field} />
+                    <Field field={enemyField.field} />
+                    <Field field={aiField.field} />
+                </GameContext.Provider>
+            </div>
             <SelectShip
                 setSelectedShip={setSelectedShip}
                 shipsToDeploy={shipsToDeploy}
                 setShipsToDeploy={setShipsToDeploy}
             />
-            <Field field={aiField.field} />
         </>
     );
 };

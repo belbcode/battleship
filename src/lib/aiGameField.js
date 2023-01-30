@@ -74,18 +74,10 @@ export default class AiGameField extends GameField {
                 ? 0
                 : 1;
 
-        console.log(
-            directions,
-            points,
-            this.getFreeSpace(gameField, points[0], directions[0]),
-            this.getFreeSpace(gameField, points[1], directions[1]),
-            index
-        );
         const point = [
             points[index][0] + directions[index][0],
             points[index][1] + directions[index][1],
         ];
-        console.log(point);
         return point;
     }
 

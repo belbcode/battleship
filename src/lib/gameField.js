@@ -25,6 +25,7 @@ export default class GameField {
     getState(point) {
         return this.field[point[1]][point[0]].state;
     }
+
     shoot(point) {
         const state = this.getState(point);
         switch (state) {
@@ -60,36 +61,6 @@ export default class GameField {
     isValidCoordToDeploy(x, y) {
         if (y >= this.rows || x >= this.cols) return false;
         if (this.field[y][x].state === "ship") return false;
-        if (y - 1 >= 0 && this.field[y - 1][x].state === "ship") return false;
-        if (y + 1 < this.rows && this.field[y + 1][x].state === "ship")
-            return false;
-        if (x - 1 >= 0 && this.field[y][x - 1].state === "ship") return false;
-        if (x + 1 < this.cols && this.field[y][x + 1].state === "ship")
-            return false;
-        if (
-            x - 1 >= 0 &&
-            y - 1 >= 0 &&
-            this.field[y - 1][x - 1].state === "ship"
-        )
-            return false;
-        if (
-            x - 1 >= 0 &&
-            y + 1 < this.rows &&
-            this.field[y + 1][x - 1].state === "ship"
-        )
-            return false;
-        if (
-            x + 1 < this.cols &&
-            y + 1 < this.rows &&
-            this.field[y + 1][x + 1].state === "ship"
-        )
-            return false;
-        if (
-            x + 1 < this.cols &&
-            y - 1 >= 0 &&
-            this.field[y - 1][x + 1].state === "ship"
-        )
-            return false;
 
         return true;
     }
@@ -113,30 +84,5 @@ export default class GameField {
         }
 
         return this;
-    }
-
-    deployShips(ships) {
-        const prevField = cloneDeep(this.field);
-        let attempt = 0;
-        for (const ship of ships) {
-            let coords = this.getRandomCoords();
-            while (!this.addShip(ship, coords)) {
-                coords = this.getRandomCoords();
-                attempt++;
-                if (attempt > 1000) {
-                    this.field = prevField;
-                    this.deployShips(ships);
-                    return;
-                }
-            }
-        }
-    }
-
-    getRandomCoords() {
-        const coords = [
-            +(Math.random() * (this.cols - 1)).toFixed(0),
-            +(Math.random() * (this.rows - 1)).toFixed(0),
-        ];
-        return coords;
     }
 }

@@ -22,10 +22,7 @@ const Game = () => {
         if (!selectedShip) return;
         setField((prev) => {
             const newGameField = cloneDeep(prev);
-            const isAdded = newGameField.addShip(
-                selectedShip.gameField.field,
-                coords
-            );
+            const isAdded = newGameField.addShip(selectedShip, coords);
             if (isAdded)
                 setShipsToDeploy((prev) =>
                     prev.filter((x) => x.id !== selectedShip.id)

@@ -8,7 +8,7 @@ export default class AiGameField extends GameField {
         this.deployShips(
             ships.map((ship) => {
                 if (Math.random() > 0.5) ship.gameField.rotateShip();
-                return ship.gameField.field;
+                return ship;
             })
         );
     }

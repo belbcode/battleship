@@ -17,7 +17,7 @@ export default class GameField {
         for (let i = 0; i < rows; i++) {
             const row = [];
             for (let j = 0; j < cols; j++)
-                row.push({ state: initState, coord: [j, i] });
+                row.push({ state: initState, coord: [j, i], shipId: null });
             this.field.push(row);
         }
     }
@@ -48,10 +48,12 @@ export default class GameField {
     addShip(ship, coord) {
         const newField = cloneDeep(this.field);
         const [x, y] = coord;
-        for (let row = 0; row < ship.length; row++) {
-            for (let col = 0; col < ship[row].length; col++) {
+        const field = ship.gameField.field;
+        for (let row = 0; row < field.length; row++) {
+            for (let col = 0; col < field[row].length; col++) {
                 if (!this.isValidCoordToDeploy(col + x, row + y)) return false;
                 newField[row + y][col + x].state = "ship";
+                newField[row + y][col + x].shipId = ship.id;
             }
         }
         this.field = newField;

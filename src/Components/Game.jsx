@@ -37,6 +37,7 @@ const Game = () => {
     const shoot = (coords) => {
         setAiField(aiField.shoot(coords));
         setEnemyField(enemyField.changeState(coords, aiField.getState(coords)));
+        setField((prev) => aiField.aiShot(prev));
     };
 
     return (

@@ -12,6 +12,7 @@ export default class AiGameField extends GameField {
             })
         );
     }
+
     deployShips(ships) {
         const prevField = cloneDeep(this.field);
         let attempt = 0;
@@ -35,5 +36,16 @@ export default class AiGameField extends GameField {
             +(Math.random() * (this.rows - 1)).toFixed(0),
         ];
         return coords;
+    }
+
+    aiShot(field) {
+        let point = field.getRandomCoords();
+        while (
+            ["w-ship", "d-ship", "s-empty"].includes(field.getState(point))
+        ) {
+            point = field.getRandomCoords();
+        }
+
+        return field.shoot(point);
     }
 }

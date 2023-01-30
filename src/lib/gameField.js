@@ -60,13 +60,12 @@ export default class GameField {
         return true;
     }
     getShipCoords(point, shipId, coords) {
-        console.log(coords);
         const [x, y] = point;
         if (
             x < 0 ||
             y < 0 ||
             x >= this.cols ||
-            y > this.rows ||
+            y >= this.rows ||
             this.field[y][x].shipId !== shipId
         )
             return coords;

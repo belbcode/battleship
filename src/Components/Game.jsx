@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { cloneDeep, map } from "lodash";
+import { cloneDeep } from "lodash";
 import GameField from "../lib/gameField";
 import Field from "./Field";
 import "../style/game.css";
@@ -54,7 +54,7 @@ const Game = () => {
                     <Field field={enemyField.field} handleCellClick={shoot} />
                 </div>
                 <div>
-                    <h3>How I see enemy field</h3>
+                    <h3>Enemy field</h3>
                     <Field field={aiField.field} handleCellClick={() => {}} />
                 </div>
             </div>

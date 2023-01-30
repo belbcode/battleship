@@ -32,6 +32,7 @@ const Game = () => {
     };
 
     const shoot = (coords) => {
+        if (enemyField.getState(coords) !== "unknown") return;
         setAiField(aiField.shoot(coords));
         setEnemyField(
             enemyField.changeCell(

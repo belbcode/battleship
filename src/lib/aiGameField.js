@@ -46,57 +46,92 @@ export default class AiGameField extends GameField {
                 throw new Error("a-a-a-a-a point undefined");
         }
 
-        console.log(point);
         return gameField.shoot(point);
     }
     getShotLinePoint(gameField, wounded) {
-        let [x, y] = wounded[0];
-        let [dx, dy] = wounded[0][0] === wounded[1][0] ? [0, 1] : [1, 0];
+        let points = [];
+        let directions = [];
+        if (wounded[0][0] === wounded[1][0]) {
+            directions = [
+                [0, 1],
+                [0, -1],
+            ];
 
-        let count = 0;
-        while (true) {
-            count++;
-            if (count > Math.max(gameField.rows, gameField.cols) * 3)
-                throw new Error("something went wrong");
-            x += dx;
-            y += dy;
-            if (
-                x >= gameField.cols ||
-                y >= gameField.rows ||
-                gameField.getState([x, y]) === "s-empty"
-            ) {
-                dx *= -1;
-                dy *= -1;
-            } else if (["ship", "empty"].includes(gameField.getState([x, y])))
-                return [x, y];
+            wounded.sort((a, b) => b[1] - a[1]);
+            points = [wounded[0], wounded[wounded.length - 1]];
+        } else {
+            directions = [
+                [1, 0],
+                [-1, 0],
+            ];
+
+            wounded.sort((a, b) => b[0] - a[0]);
+            points = [wounded[0], wounded[wounded.length - 1]];
         }
+        const index =
+            this.getFreeSpace(gameField, points[0], directions[0]) >
+            this.getFreeSpace(gameField, points[1], directions[1])
+                ? 0
+                : 1;
+
+        console.log(
+            directions,
+            points,
+            this.getFreeSpace(gameField, points[0], directions[0]),
+            this.getFreeSpace(gameField, points[1], directions[1]),
+            index
+        );
+        const point = [
+            points[index][0] + directions[index][0],
+            points[index][1] + directions[index][1],
+        ];
+        console.log(point);
+        return point;
     }
 
     getShotAroundPoint(gameField, point) {
         const [x, y] = point;
 
-        const options = [];
-        if (x - 1 >= 0 && !this.isShotted(gameField, [x - 1, y]))
-            options.push([x - 1, y]);
-        if (x + 1 < gameField.cols && !this.isShotted(gameField, [x + 1, y]))
-            options.push([x + 1, y]);
-        if (y - 1 >= 0 && !this.isShotted(gameField, [x, y - 1]))
-            options.push([x, y - 1]);
-        if (y + 1 < gameField.rows && !this.isShotted(gameField, [x, y + 1]))
-            options.push([x, y + 1]);
-        const num = Math.floor(Math.random() * options.length);
-        const shotPoint = options[num];
+        let directions = [
+            [-1, 0],
+            [1, 0],
+            [0, -1],
+            [0, 1],
+        ];
 
-        if (shotPoint === undefined)
-            throw new Error("a-a-a-a-a point undefined");
-        console.log(options);
-        return shotPoint;
+        let res = { direction: [], freeSpace: 0 };
+        for (const direction of directions) {
+            const freeSpace = this.getFreeSpace(gameField, point, direction);
+            if (freeSpace > res.freeSpace) res = { freeSpace, direction };
+        }
+
+        return [x + res.direction[0], y + res.direction[1]];
     }
 
     isShotted(gameField, point) {
         return ["w-ship", "d-ship", "s-empty"].includes(
             gameField.getState(point)
         );
+    }
+
+    getFreeSpace(gameField, point, direction) {
+        const [dx, dy] = direction;
+        let [x, y] = point;
+        x += dx;
+        y += dy;
+        let res = 0;
+        while (
+            x >= 0 &&
+            x < gameField.cols &&
+            y >= 0 &&
+            y < gameField.rows &&
+            ["ship", "empty"].includes(gameField.getState([x, y]))
+        ) {
+            res++;
+            x += dx;
+            y += dy;
+        }
+        return res;
     }
 
     getRandomShotPoint(gameField) {
@@ -124,7 +159,6 @@ export default class AiGameField extends GameField {
         for (const ship in ships) {
             if (res.length < ships[ship].length) res = ships[ship];
         }
-        console.log(res);
         return res;
     }
 }

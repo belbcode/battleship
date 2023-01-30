@@ -23,7 +23,6 @@ export default class GameField {
     }
 
     getState(point) {
-        console.log("getState", this, point);
         return this.field[point[1]][point[0]].state;
     }
     getShipId(point) {

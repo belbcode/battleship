@@ -5,13 +5,13 @@ import Field from "./Field";
 import "../style/game.css";
 import SelectShip from "./SelectShip";
 import initShips from "../lib/initShips";
+import initAiField from "../lib/getAiGameField";
 
 export const GameContext = createContext({ handleCellClick: () => {} });
 
 const Game = () => {
     const initField = new GameField(10, 10, "empty");
-    const initAiField = new GameField(10, 10, "empty");
-    initAiField.deployShips(initShips.map((x) => x.gameField.field));
+
     const [aiField, setAiField] = useState(initAiField);
 
     const [field, setField] = useState(initField);

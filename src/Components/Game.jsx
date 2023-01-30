@@ -33,7 +33,15 @@ const Game = () => {
 
     const shoot = (coords) => {
         setAiField(aiField.shoot(coords));
-        setEnemyField(enemyField.changeState(coords, aiField.getState(coords)));
+        setEnemyField(
+            enemyField.changeCell(
+                coords,
+                aiField.getState(coords),
+                aiField.getShipId(coords)
+            )
+        );
+        if (enemyField.getState(coords) === "d-ship")
+            setEnemyField(enemyField.shotShip(coords));
         setField((prev) => {
             return aiField.aiShot(prev);
         });

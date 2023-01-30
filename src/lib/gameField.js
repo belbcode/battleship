@@ -25,26 +25,42 @@ export default class GameField {
     getState(point) {
         return this.field[point[1]][point[0]].state;
     }
+    getShipId(point) {
+        return this.field[point[1]][point[0]].shipId;
+    }
 
     shoot(point) {
-        const [x, y] = point;
         const state = this.getState(point);
         switch (state) {
             case "empty":
-                return this.changeState(point, "s-empty");
+                return this.changeCell(point, "s-empty");
 
             case "ship":
-                const coords = [];
-                this.getShipCoords(point, this.field[y][x].shipId, coords);
-                console.log(coords);
-                return this.changeState(point, "w-ship");
+                return this.shotShip(point);
 
             default:
                 return this;
         }
     }
 
+    shotShip(point) {
+        const [x, y] = point;
+        const coords = [];
+        this.getShipCoords(point, this.field[y][x].shipId, coords);
+        const res = this.changeCell(point, "w-ship");
+        if (this.isShipDestroyed(coords)) {
+            return this.changeCells(coords, "d-ship");
+        } else return res;
+    }
+
+    isShipDestroyed(coords) {
+        for (const coord of coords) {
+            if (this.getState(coord) === "ship") return false;
+        }
+        return true;
+    }
     getShipCoords(point, shipId, coords) {
+        console.log(coords);
         const [x, y] = point;
         if (
             x < 0 ||
@@ -67,8 +83,16 @@ export default class GameField {
         this.getShipCoords([x, y + 1], shipId, coords);
     }
 
-    changeState(point, state) {
-        this.field[point[1]][point[0]] = { state: state, coord: point };
+    changeCell(point, state, shipId = null) {
+        const cell = this.field[point[1]][point[0]];
+        this.field[point[1]][point[0]] = { ...cell, state: state };
+        if (shipId) this.field[point[1]][point[0]].shipId = shipId;
+        return cloneDeep(this);
+    }
+
+    changeCells(points, state) {
+        for (const point of points) this.changeCell(point, state);
+
         return cloneDeep(this);
     }
 
@@ -92,10 +116,6 @@ export default class GameField {
         if (this.field[y][x].state === "ship") return false;
 
         return true;
-    }
-
-    changeStates(points, state) {
-        for (const point of points) this.changeState(point, state);
     }
 
     rotateShip() {

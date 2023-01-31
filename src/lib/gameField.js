@@ -50,6 +50,7 @@ export default class GameField {
         this.getShipCoords(point, this.field[y][x].shipId, coords);
         const res = this.changeCell(point, "w-ship");
         if (this.isShipDestroyed(coords)) {
+            this.deployedShips--;
             return this.changeCells(coords, "d-ship");
         } else return res;
     }
@@ -100,6 +101,7 @@ export default class GameField {
         const newField = cloneDeep(this.field);
         const [x, y] = coord;
         const field = ship.gameField.field;
+
         for (let row = 0; row < field.length; row++) {
             for (let col = 0; col < field[row].length; col++) {
                 if (!this.isValidCoordToDeploy(col + x, row + y)) return false;
@@ -108,6 +110,7 @@ export default class GameField {
             }
         }
         this.field = newField;
+        this.deployedShips++;
         return true;
     }
 

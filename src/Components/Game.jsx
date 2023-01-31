@@ -52,7 +52,7 @@ const Game = () => {
         <>
             <div className="flex">
                 <div>
-                    <h3>{`My field. Deployed: ${aiField.deployedShips}`}</h3>
+                    <h3>{`My field. Deployed: ${field.deployedShips}`}</h3>
                     <Field
                         field={field.field}
                         handleCellClick={deploySelectedShip}

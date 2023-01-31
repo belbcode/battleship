@@ -11,14 +11,13 @@ export default class GameField {
     field = [];
     cols;
     rows;
-    constructor(cols, rows, initState, images, states) {
+    constructor(cols, rows, initState) {
         this.cols = cols;
         this.rows = rows;
-        this.images = images;
         for (let i = 0; i < rows; i++) {
             const row = [];
             for (let j = 0; j < cols; j++)
-                row.push({ state: initState, coord: [j, i], shipId: null, image: images ? images[i] : null, ...states});
+                row.push({ state: initState, coord: [j, i], shipId: null });
             this.field.push(row);
         }
     }
@@ -50,7 +49,6 @@ export default class GameField {
         this.getShipCoords(point, this.field[y][x].shipId, coords);
         const res = this.changeCell(point, "w-ship");
         if (this.isShipDestroyed(coords)) {
-            this.deployedShips--;
             return this.changeCells(coords, "d-ship");
         } else return res;
     }
@@ -101,7 +99,6 @@ export default class GameField {
         const newField = cloneDeep(this.field);
         const [x, y] = coord;
         const field = ship.gameField.field;
-
         for (let row = 0; row < field.length; row++) {
             for (let col = 0; col < field[row].length; col++) {
                 if (!this.isValidCoordToDeploy(col + x, row + y)) return false;
@@ -110,20 +107,7 @@ export default class GameField {
             }
         }
         this.field = newField;
-        this.deployedShips++;
         return true;
-    }
-
-    insertAt(stateArray) {
-
-        stateArray.forEach((state) => {
-            const [x, y] = state.coord
-            // if(x > this.height || y > this.length) {
-            //     throw new Error("insertion out of matrix bounds")
-            // }
-            this.field[y][x] = state
-        })
-        return cloneDeep(this.field)
     }
 
     isValidCoordToDeploy(x, y) {

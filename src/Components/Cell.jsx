@@ -1,4 +1,5 @@
 import "../style/cell.css";
+import crossImg from "../assets/cross.svg";
 
 const cellSize = 30; //!!! Important !!!/
 
@@ -12,7 +13,11 @@ const Cell = ({ cellState, handleCellClick }) => {
             className={`cell`}
             style={{ width: `${cellSize}px`, height: `${cellSize}px` }}
         >
-            <div className={`cell-inner cell-${state}`}></div>
+            <div className={`cell-inner cell-${state}`}>
+                {["d-ship", "w-ship", "s-empty"].includes(state) && (
+                    <img src={crossImg} />
+                )}
+            </div>
         </div>
     );
 };

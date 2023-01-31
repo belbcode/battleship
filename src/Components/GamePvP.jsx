@@ -81,15 +81,15 @@ const Game = () => {
 
     return (
         <>
-            <h1>{`${gamePhase}`}</h1>;
+            {gamePhase === "wait-player" && <h1>Waiting for another player</h1>}
+            {gamePhase === "deployment" && <h1>Deploy your ships</h1>}
+            {gamePhase === "battle" && <h1>Destroy your enemy</h1>}
             {gamePhase === "game-over" && (
                 <h1>{`${isWin ? "You won" : "You lost"}`}</h1>
             )}
-            ;
             {gamePhase === "battle" && (
                 <h1>{`${isMyMove ? "Your move" : "Enemy move"}`}</h1>
             )}
-            ;
             <div className="flex">
                 <div>
                     <h3>{`My field. Deployed: ${field.deployedShips}`}</h3>

@@ -5,7 +5,7 @@ import GamePvP from "./Components/GamePvP";
 function App() {
     return (
         <div className="App">
-            <Game />
+            <GamePvP />
         </div>
     );
 }

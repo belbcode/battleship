@@ -134,6 +134,9 @@ export default class GameField {
             }
             this.field = [res];
         }
+        const temp = this.rows;
+        this.rows = this.cols;
+        this.cols = temp;
 
         return this;
     }

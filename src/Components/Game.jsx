@@ -59,22 +59,13 @@ const Game = () => {
                     />
                 </div>
                 {shipsToDeploy.length === 0 && (
-                    <>
-                        <div>
-                            <h3>{`Enemy field. Deployed: ${aiField.deployedShips}`}</h3>
-                            <Field
-                                field={enemyField.field}
-                                handleCellClick={shoot}
-                            />
-                        </div>
-                        {/* <div>
-                            <h3>{`Enemy field. Deployed: ${aiField.deployedShips}`}</h3>
-                            <Field
-                                field={aiField.field}
-                                handleCellClick={() => {}}
-                            />
-                        </div> */}
-                    </>
+                    <div>
+                        <h3>{`Enemy field. Deployed: ${aiField.deployedShips}`}</h3>
+                        <Field
+                            field={enemyField.field}
+                            handleCellClick={shoot}
+                        />
+                    </div>
                 )}
             </div>
             {shipsToDeploy.length > 0 && (

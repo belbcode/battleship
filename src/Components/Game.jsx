@@ -13,21 +13,32 @@ const Game = () => {
     const [enemyField, setEnemyField] = useState(
         new GameField(10, 10, "unknown")
     );
-
     const [selectedShip, setSelectedShip] = useState();
 
     const [shipsToDeploy, setShipsToDeploy] = useState(initShips);
 
+
     const deploySelectedShip = (coords) => {
         if (!selectedShip) return;
         setField((prev) => {
-            const newGameField = cloneDeep(prev);
-            const isAdded = newGameField.addShip(selectedShip, coords);
-            if (isAdded)
-                setShipsToDeploy((prev) =>
-                    prev.filter((x) => x.id !== selectedShip.id)
-                );
-            return newGameField;
+          const newMatrix = prev.insertAt(selectedShip.gameField.field.map((element, index) => {
+            return {...element[0], coord:[coords[0]+index, coords[1]],
+            }
+          })
+          )
+          // console.log(selectedShip);
+          //   const newGameField = cloneDeep(prev);
+          //   const isAdded = newGameField.addShip(selectedShip, coords);
+          //   if (isAdded)
+
+                // setShipsToDeploy((prev) =>
+                //     prev.filter((x) => x.id !== selectedShip.id)
+                // );
+                // return 
+          //   return newGameField;
+          // return newMatrix
+          console.log(newMatrix, "HERE");
+          return newMatrix
         });
     };
 
@@ -52,7 +63,7 @@ const Game = () => {
         <>
             <div className="flex">
                 <div>
-                    <h3>My field</h3>
+                    <h3>{`My field. Deployed: ${field.deployedShips}`}</h3>
                     <Field
                         field={field.field}
                         handleCellClick={deploySelectedShip}
@@ -63,7 +74,7 @@ const Game = () => {
                     <Field field={enemyField.field} handleCellClick={shoot} />
                 </div>
                 <div>
-                    <h3>Enemy field</h3>
+                    <h3>{`Enemy field. Deployed: ${aiField.deployedShips}`}</h3>
                     <Field field={aiField.field} handleCellClick={() => {}} />
                 </div>
             </div>

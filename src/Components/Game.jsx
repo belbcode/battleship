@@ -58,20 +58,32 @@ const Game = () => {
                         handleCellClick={deploySelectedShip}
                     />
                 </div>
-                <div>
-                    <h3>How I see enemy field</h3>
-                    <Field field={enemyField.field} handleCellClick={shoot} />
-                </div>
-                <div>
-                    <h3>{`Enemy field. Deployed: ${aiField.deployedShips}`}</h3>
-                    <Field field={aiField.field} handleCellClick={() => {}} />
-                </div>
+                {shipsToDeploy.length === 0 && (
+                    <>
+                        <div>
+                            <h3>{`Enemy field. Deployed: ${aiField.deployedShips}`}</h3>
+                            <Field
+                                field={enemyField.field}
+                                handleCellClick={shoot}
+                            />
+                        </div>
+                        {/* <div>
+                            <h3>{`Enemy field. Deployed: ${aiField.deployedShips}`}</h3>
+                            <Field
+                                field={aiField.field}
+                                handleCellClick={() => {}}
+                            />
+                        </div> */}
+                    </>
+                )}
             </div>
-            <SelectShip
-                setSelectedShip={setSelectedShip}
-                shipsToDeploy={shipsToDeploy}
-                setShipsToDeploy={setShipsToDeploy}
-            />
+            {shipsToDeploy.length > 0 && (
+                <SelectShip
+                    setSelectedShip={setSelectedShip}
+                    shipsToDeploy={shipsToDeploy}
+                    setShipsToDeploy={setShipsToDeploy}
+                />
+            )}
         </>
     );
 };

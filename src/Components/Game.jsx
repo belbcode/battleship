@@ -52,7 +52,7 @@ const Game = () => {
         <>
             <div className="flex">
                 <div>
-                    <h3>My field</h3>
+                    <h3>{`My field. Deployed: ${field.deployedShips}`}</h3>
                     <Field
                         field={field.field}
                         handleCellClick={deploySelectedShip}
@@ -63,7 +63,7 @@ const Game = () => {
                     <Field field={enemyField.field} handleCellClick={shoot} />
                 </div>
                 <div>
-                    <h3>Enemy field</h3>
+                    <h3>{`Enemy field. Deployed: ${aiField.deployedShips}`}</h3>
                     <Field field={aiField.field} handleCellClick={() => {}} />
                 </div>
             </div>

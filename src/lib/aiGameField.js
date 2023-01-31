@@ -126,32 +126,14 @@ export default class AiGameField extends GameField {
         return res;
     }
 
-    getNearbyCells(point) {
-        const [x, y] = point;
-        const res = [];
-        if (x - 1 >= 0) res.push([x - 1, y]);
-        if (x + 1 < this.cols) res.push([x + 1, y]);
-        if (y - 1 >= 0) res.push([x, y - 1]);
-        if (y + 1 < this.rows) res.push([x, y + 1]);
-        return res;
-    }
-
     getRandomShotPoint(gameField) {
-        let count = 0;
-        while (true) {
-            count++;
-            const point = gameField.getRandomCoords();
-            if (["empty", "ship"].includes(gameField.getState(point))) {
-                const nearbyCells = this.getNearbyCells(point);
-                for (const cell of nearbyCells) {
-                    if (
-                        ["empty", "ship"].includes(gameField.getState(cell)) ||
-                        count > this.cols * this.rows
-                    )
-                        return point;
-                }
-            }
+        let point = gameField.getRandomCoords();
+        while (
+            ["w-ship", "d-ship", "s-empty"].includes(gameField.getState(point))
+        ) {
+            point = gameField.getRandomCoords();
         }
+        return point;
     }
 
     getWoundedShip(gameField) {

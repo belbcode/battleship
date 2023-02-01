@@ -19,27 +19,33 @@ const Game = () => {
 
 
     const deploySelectedShip = (coords) => {
+      console.log(selectedShip);
         if (!selectedShip) return;
-        setField((prev) => {
-          const newMatrix = prev.insertAt(selectedShip.gameField.field.map((element, index) => {
-            return {...element[0] , coord:[coords[0]+index, coords[1]],
-            }
-          })
-          )
-          // console.log(selectedShip);
-          //   const newGameField = cloneDeep(prev);
-          //   const isAdded = newGameField.addShip(selectedShip, coords);
-          //   if (isAdded)
 
-                // setShipsToDeploy((prev) =>
-                //     prev.filter((x) => x.id !== selectedShip.id)
-                // );
-                // return 
-          //   return newGameField;
-          // return newMatrix
-          console.log(newMatrix, "HERE");
-          return newMatrix
-        });
+          setField( (prev) => {
+            try {
+              const newMatrix = prev.insertAt(selectedShip.gameField.field.map((element, index) => {
+                console.log(element, index);
+                if(element[0].orientation) {
+                  return {...element[0] , coord:[coords[0], coords[1]+index],}
+                } else {
+                  return {...element[0] , coord:[coords[0] + index, coords[1]]}
+                }
+              }))
+              setShipsToDeploy(prev => {
+                return prev.filter((x) => selectedShip.id !== x.id)
+              })
+              setSelectedShip(null)
+              
+              return newMatrix  
+            }
+            catch(err) {
+              console.log(err)
+              return prev
+            }
+            
+          });
+
     };
 
     const shoot = (coords) => {

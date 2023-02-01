@@ -11,7 +11,7 @@ export default class GameField {
     field = [];
     cols;
     rows;
-    constructor(cols, rows, initState, images, states) {
+    constructor(cols, rows, initState, images, states = null) {
         this.cols = cols;
         this.rows = rows;
         this.images = images;
@@ -115,15 +115,16 @@ export default class GameField {
     }
 
     insertAt(stateArray) {
-
+        const copy = cloneDeep(this.field)
         stateArray.forEach((state) => {
             const [x, y] = state.coord
-            // if(x > this.height || y > this.length) {
-            //     throw new Error("insertion out of matrix bounds")
-            // }
-            this.field[y][x] = state
+            if(x > this.cols - 1 || y > this.rows -1) {
+                throw new Error("insertion out of matrix bounds")
+            }
+            copy[y][x] = state
         })
-        return cloneDeep(this.field)
+        this.field = copy
+        return cloneDeep(this)
     }
 
     isValidCoordToDeploy(x, y) {
@@ -134,19 +135,24 @@ export default class GameField {
     }
 
     rotateShip() {
+
         const res = [];
         if (this.field.length === 1) {
             for (const cell of this.field[0]) {
+                // cell[0].orientation = !cell[0].orientation || false
                 res.push([cell]);
             }
             this.field = res;
         } else {
             for (const cell of this.field) {
+                if(!cell[0].orientation) {
+                    console.log(cell);
+                }
+                cell[0].orientation = !cell[0].orientation || false
                 res.push(cell[0]);
             }
             this.field = [res];
         }
-
         return this;
     }
 

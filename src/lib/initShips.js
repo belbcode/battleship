@@ -22,5 +22,6 @@ const initShips = [
     { id: "shipP9", gameField: new GameField(1, 2, "ship", ship2, {orientation: true}) },
     { id: "shipP10", gameField: new GameField(1, 2, "ship", ship2, {orientation: true}) },
 ];
+console.log(initShips[8]);
 
 export default initShips;

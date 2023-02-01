@@ -5,6 +5,10 @@
     display: flex;
 }
 
+.cell :hover  {
+    opacity: 70%;
+}
+
 
 .img {
     width: 2rem;

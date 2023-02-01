@@ -5,6 +5,7 @@ import "../style/game.css";
 const SelectShip = ({ setSelectedShip, setShipsToDeploy, shipsToDeploy }) => {
     const [selectedId, setSelectedId] = useState();
     const handleClick = (ship) => {
+      console.log(ship);
         setSelectedShip(ship);
         setSelectedId(ship.id);
     };
